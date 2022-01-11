@@ -52,12 +52,14 @@ $ make start
 ```bash
 $ make watch
 ``` 
-![](./img/docker_ps_distributed_rate_limiting_system.png.png)
+![](./img/docker_ps_distributed_rate_limiting_system.png)
 
 **Run and Test Distributed Rate-Limiting Solution:**
 
-> Chrome
-![](./img/distributed-rate_limiting_test_tool_chrome.png)
+> Chrome:
 
-> Safari
-![](./img/distributed_rate_limiting_test_tool_safari.png)
+  ![](./img/distributed-rate_limiting_test_tool_chrome.png)
+
+> Safari:
+
+  ![](./img/distributed_rate_limiting_test_tool_safari.png)
