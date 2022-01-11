@@ -1,0 +1,183 @@
+version: '2.2'
+
+networks: 
+  mynetwork:
+    name: mynetwork
+    attachable: true
+
+services:
+  frontend-load-balancer-api-gateway-oidc:
+    container_name: frontend-load-balancer-api-gateway-oidc
+    build:
+      context: ./
+      dockerfile: ./docker/frontend-load-balancer-api-gateway-oidc/Dockerfile
+    image: frontend-load-balancer-api-gateway-oidc
+    ports:
+      - 443:443
+      - 8080:8080
+    volumes:
+      - type: bind
+        source: ./services/frontend-load-balancer-api-gateway-oidc/nginx/conf.d
+        target: /etc/nginx/conf.d/
+    networks:
+      - mynetwork
+    depends_on:
+      - frontend-app-01
+
+  frontend-app-01:
+    container_name: frontend-app-01
+    build:
+      context: ./
+      dockerfile: ./docker/frontend-app/Dockerfile
+    image: frontend-app
+    ports: 
+      - 11001:80
+    volumes:
+      - type: bind
+        source: ./services/frontend-app
+        target: /etc/nginx/
+      - type: bind
+        source: ./services/frontend-app/conf.d
+        target: /etc/nginx/conf.d
+      - type: bind
+        source: ./services/frontend-app/content
+        target: /usr/share/nginx/html/
+    networks:
+      - mynetwork
+    depends_on:
+      - frontend-app-02
+
+  frontend-app-02:
+    container_name: frontend-app-02
+    build:
+      context: ./
+      dockerfile: ./docker/frontend-app/Dockerfile
+    image: frontend-app
+    ports: 
+      - 11002:80
+    volumes:
+      - type: bind
+        source: ./services/frontend-app
+        target: /etc/nginx/
+      - type: bind
+        source: ./services/frontend-app/conf.d
+        target: /etc/nginx/conf.d
+      - type: bind
+        source: ./services/frontend-app/content
+        target: /usr/share/nginx/html/
+    networks:
+      - mynetwork
+    depends_on:
+      - backend-load-balancer-to-rate-limiter
+
+  backend-load-balancer-to-rate-limiter:
+    container_name: backend-load-balancer-to-rate-limiter
+    build:
+      context: ./
+      dockerfile: ./docker/backend-load-balancer-to-rate-limiter/Dockerfile
+    image: backend-load-balancer-to-rate-limiter
+    ports: 
+      - 12000:80
+    volumes:
+      - type: bind
+        source: ./services/backend-load-balancer-to-rate-limiter
+        target: /etc/nginx/
+      - type: bind
+        source: ./services/backend-load-balancer-to-rate-limiter/conf.d
+        target: /etc/nginx/conf.d
+    networks:
+      - mynetwork
+    depends_on:
+      - rate-limiter-01
+
+  rate-limiter-01:
+    container_name: rate-limiter-01
+    build:
+      context: ./
+      dockerfile: ./docker/rate-limiter/Dockerfile
+    image: flask-rate-limiter
+    ports: 
+      - 12001:12000
+    volumes:
+      - type: bind
+        source: ./services/rate-limiter
+        target: /var/www/rate-limiter/
+    networks:
+      - mynetwork
+    depends_on:
+      - rate-limiter-02
+
+  rate-limiter-02:
+    container_name: rate-limiter-02
+    build:
+      context: ./
+      dockerfile: ./docker/rate-limiter/Dockerfile
+    image: flask-rate-limiter
+    ports: 
+      - 12002:12000
+    volumes:
+      - type: bind
+        source: ./services/rate-limiter
+        target: /var/www/rate-limiter/
+    networks:
+      - mynetwork
+    depends_on:
+      - backend-load-balancer-to-upload-app
+
+  backend-load-balancer-to-upload-app:
+    container_name: backend-load-balancer-to-upload-app
+    build:
+      context: ./
+      dockerfile: ./docker/backend-load-balancer-to-upload-app/Dockerfile
+    image: backend-load-balancer-to-upload-app
+    ports: 
+      - 13000:80
+    volumes:
+      - type: bind
+        source: ./services/backend-load-balancer-to-upload-app
+        target: /etc/nginx/
+      - type: bind
+        source: ./services/backend-load-balancer-to-upload-app/conf.d
+        target: /etc/nginx/conf.d
+    networks:
+      - mynetwork
+    depends_on:
+      - upload-app-01
+
+  upload-app-01:
+    container_name: upload-app-01
+    build:
+      context: ./
+      dockerfile: ./docker/upload-app/Dockerfile
+    image: upload-app
+    ports: 
+      - 13001:80
+    volumes:
+      - type: bind
+        source: ./services/upload-app
+        target: /etc/nginx/
+      - type: bind
+        source: ./services/upload-app/conf.d
+        target: /etc/nginx/conf.d
+    networks:
+      - mynetwork
+    depends_on:
+      - upload-app-02
+
+  upload-app-02:
+    container_name: upload-app-02
+    build:
+      context: ./
+      dockerfile: ./docker/upload-app/Dockerfile
+    image: upload-app
+    ports: 
+      - 13002:80
+    volumes:
+      - type: bind
+        source: ./services/upload-app
+        target: /etc/nginx/
+      - type: bind
+        source: ./services/upload-app/conf.d
+        target: /etc/nginx/conf.d
+    networks:
+      - mynetwork

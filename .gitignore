@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.DS_Store
+*.key
+*.crt
+.pytest_cache/
+.cache/
+cache/
+v/
+oidc_access_tokens.json
+oidc_id_tokens.json
+oidc_refresh_tokens.json
