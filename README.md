@@ -1,7 +1,11 @@
-# Distributed Rating Limiting Solution Example w/ Echo System
+# Distributed Rating Limiting Solution w/ Echo System
 The rate-limit allows you to limit the amount of HTTP requests a user can make in a given period of time.
 
-This repo provides an example of distributed rate-limiter app that can be called by an API gateway. Given this way, developers do not need to implement rate-limit handling in each API endpoint of various apps. So you can only focus on developing business logic in your application.
+This repo provides **an example of distributed rate-limiter solution** that integrates with load balancers, API gateways, frontend apps, IdP, Rate-Limiters, and fake upload apps. 
+
+> **As-Is**: Load Balancers, API Gateways, Frontend Apps, IdP, Rate-Limiters, and Fake Upload App APIs
+
+> **TBD**: Sync-App between local cache and Distributed Cache/Datastores
 
 ```bash
 User(SPA)
@@ -27,6 +31,11 @@ User(SPA)
 * N+: Nginx Plus, NGX: Nginx OSS
 * SPA: Single Page App, GW: Gateway, IdP: Identity Provider (Amazon Cognito)
 ```
+
+### Table of Contents
+- [Getting Started](#getting-started)
+- [Directory and File Structure](#directory-and-file-structure)
+
 
 ## Getting Started
 
@@ -63,3 +72,49 @@ $ make watch
 > Safari:
 
   ![](./img/distributed_rate_limiting_test_tool_safari.png)
+
+
+## Directory and File Structure
+
+```bash
+│
+├── Makefile                                      // Command Line Interfaces
+│
+├── docker                                        // Dockerfiles
+│   ├── frontend-load-balancer-api-gateway-oidc
+│   ├── frontend-app
+│   ├── backend-load-balancer-to-rate-limiter
+│   ├── rate-limiter
+│   ├── backend-load-balancer-to-upload-app
+│   └── upload-app
+│
+├── docker-compose.yml
+│
+└── services
+    │
+    ├── frontend-load-balancer-api-gateway-oidc // LB, API GW, OIDC, IdP, Rate-Limiter Client
+    │   ├── nginx
+    │   │   └── conf.d
+    │   │       ├── oidc*.*                     // - LB, APIGW, OIDC w/ Frontend, Backend Main
+    │   │       ├── rate_limit*.*               // - Rate Limiter Client
+    │   │       └── status_api*.*               // - Status API
+    │   │   
+    │   └── ssl              
+    │       ├── my-sample.crt                   // - Use Your Certificates
+    │       ├── my-sample.key
+    │       ├── nginx-repo.crt                  // - Download Nginx License
+    │       └── nginx-repo.key
+    │           
+    ├── frontend-app                            // Distributed Rate-Limiting Test UI
+    │   
+    ├── backend-load-balancer-to-rate-limiter   // Frontend -> LB -> Rate Limiters (API)
+    │   
+    ├── rate-limiter                            // Rate Limiter App
+    │   ├── app                                 // - Main
+    │   ├── core                                // - Core: API, Common, Algorithm
+    │   └── test                                // - Unit/Functional/Integration/E2E Test (In pgoress)
+    │       
+    ├── backend-load-balancer-to-upload-app     // Frontend -> LB -> Upload Apps (API)
+    │
+    └── upload-app                              // Fake Upload App
+```
