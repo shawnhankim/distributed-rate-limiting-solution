@@ -78,14 +78,20 @@ $ make watch
 You can change `any key/value store` based on your needs. This repo provides a localon DynamoDB as one of key/value stores. You can run the following if you want to check the data by `DynamoDB Admin`.
 
 ```bash
-npm install -g dynamodb-admin
+$npm install -g dynamodb-admin
 
 // For Windows
 set DYNAMO_ENDPOINT=http://localhost:8000
 dynamodb-admin
 
 // For Mac/Linux
-DYNAMO_ENDPOINT=http://localhost:8000 dynamodb-admin
+$ DYNAMO_ENDPOINT=http://localhost:8000 dynamodb-admin
+
+  database endpoint:  http://localhost:8000
+  region:             us-east-1
+  accessKey:          XXXXXXXXXXXXXXXXXXXX
+
+  dynamodb-admin listening on http://localhost:8001 (alternatively http://0.0.0.0:8001)
 ```
 
 ![](./img/dynamodb_admin.png)
@@ -143,3 +149,11 @@ DYNAMO_ENDPOINT=http://localhost:8000 dynamodb-admin
     └── dynamodb                                
         └── data                                // Volume to store data rather than memory for testing
 ```
+
+## Distributed System Status Summary
+
+![](./img/nginx_status_summary.png)
+
+## HTTP Upstreams Status Summary
+
+![](./img/nginx_status_upstreams.png)
