@@ -67,11 +67,28 @@ $ make watch
 
 > Chrome:
 
-  ![](./img/distributed-rate_limiting_test_tool_chrome.png)
+  ![](./img/distributed_rate_limiting_test_tool_chrome.png)
 
 > Safari:
 
   ![](./img/distributed_rate_limiting_test_tool_safari.png)
+
+
+**Run and Check Quota Remaining in Your Key/Value Store:**
+You can change `any key/value store` based on your needs. This repo provides a localon DynamoDB as one of key/value stores. You can run the following if you want to check the data by `DynamoDB Admin`.
+
+```bash
+npm install -g dynamodb-admin
+
+// For Windows
+set DYNAMO_ENDPOINT=http://localhost:8000
+dynamodb-admin
+
+// For Mac/Linux
+DYNAMO_ENDPOINT=http://localhost:8000 dynamodb-admin
+```
+
+![](./img/dynamodb_admin.png)
 
 
 ## Directory and File Structure
@@ -86,7 +103,8 @@ $ make watch
 │   ├── backend-load-balancer-to-rate-limiter
 │   ├── rate-limiter
 │   ├── backend-load-balancer-to-upload-app
-│   └── upload-app
+│   ├── upload-app
+│   └── sync-app
 │
 ├── docker-compose.yml
 │
@@ -116,5 +134,12 @@ $ make watch
     │       
     ├── backend-load-balancer-to-upload-app     // Frontend -> LB -> Upload Apps (API)
     │
-    └── upload-app                              // Fake Upload App
+    ├── upload-app                              // Fake Upload App
+    │
+    ├── sync-app                                // Rate Limiter Sync App between API GWs and Key/Value store
+    │   ├── app                                 // - Main (TBD: REST -> Message Bus)
+    │   └── core                                // - Core: API, Common, Key/Value Store Lib
+    │
+    └── dynamodb                                
+        └── data                                // Volume to store data rather than memory for testing
 ```

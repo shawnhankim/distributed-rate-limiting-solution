@@ -13,7 +13,7 @@ func main() {
 	fmt.Println("| Test-Case | Configuring a global rate-limiter.         |")
 	fmt.Println("+-----------+--------------------------------------------+\n")
 
-	url := "http://127.0.0.1/ratelimit-config/global"
+	url := "http://127.0.0.1:12001/ratelimits/config/global"
 	method := "PUT"
 
 	payload := strings.NewReader(`{

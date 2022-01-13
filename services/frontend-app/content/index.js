@@ -27,7 +27,6 @@ var btnUploadImg = document.getElementById('upload-image');
 var btnDnloadImg = document.getElementById('download-image');
 var txtGlobalQuotaLimit = document.getElementById('global-quota-limit')
 var txtUserQuotaLimit = document.getElementById('user-quota-limit')
-var txtAPIReqCnt = document.getElementById('request-cnt')
 var jsonViewer = new JSONViewer();
 var viewerJSON = document.querySelector("#json").appendChild(jsonViewer.getContainer());
 var userName = '';

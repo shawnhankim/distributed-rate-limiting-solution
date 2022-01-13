@@ -95,7 +95,7 @@ services:
     build:
       context: ./
       dockerfile: ./docker/rate-limiter/Dockerfile
-    image: flask-rate-limiter
+    image: rate-limiter
     ports: 
       - 12001:12000
     volumes:
@@ -112,7 +112,7 @@ services:
     build:
       context: ./
       dockerfile: ./docker/rate-limiter/Dockerfile
-    image: flask-rate-limiter
+    image: rate-limiter
     ports: 
       - 12002:12000
     volumes:
@@ -179,5 +179,56 @@ services:
       - type: bind
         source: ./services/upload-app/conf.d
         target: /etc/nginx/conf.d
+    networks:
+      - mynetwork
+    depends_on:
+      - sync-app-01
+
+  sync-app-01:
+    container_name: sync-app-01
+    build:
+      context: ./
+      dockerfile: ./docker/sync-app/Dockerfile
+    image: sync-app
+    ports: 
+      - 14001:8000
+    volumes:
+      - type: bind
+        source: ./services/sync-app
+        target: /var/www/sync-app/
+    networks:
+      - mynetwork
+    depends_on:
+      - dynamodb
+
+  sync-app-02:
+    container_name: sync-app-02
+    build:
+      context: ./
+      dockerfile: ./docker/sync-app/Dockerfile
+    image: sync-app
+    ports: 
+      - 14002:8000
+    volumes:
+      - type: bind
+        source: ./services/sync-app
+        target: /var/www/sync-app/
+    networks:
+      - mynetwork
+    depends_on:
+      - dynamodb
+      
+  dynamodb:
+    image:  amazon/dynamodb-local
+    container_name: key-value-store
+    hostname: dynamodb
+    # restart: always
+    volumes:
+      - type: bind
+        source: ./services/dynamodb/data
+        target: /home/dynamodblocal/data
+    ports:
+      - 8000:8000
+    command: "-jar DynamoDBLocal.jar -sharedDb --port 8000 -dbPath /home/dynamodblocal/data/"
     networks:
       - mynetwork

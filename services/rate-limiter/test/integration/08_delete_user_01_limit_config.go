@@ -11,7 +11,7 @@ func main() {
 	fmt.Println("| Test-Case | Delete a user_01 rate limit configuration. |")
 	fmt.Println("+-----------+--------------------------------------------+\n")
 
-	url := "http://127.0.0.1/ratelimit-config/users/user-01"
+	url := "http://127.0.0.1:12001/ratelimits/config/users/user-01"
 	method := "DELETE"
 
 	client := &http.Client {}

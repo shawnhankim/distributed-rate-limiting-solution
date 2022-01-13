@@ -14,7 +14,7 @@ func main() {
 	fmt.Println("| Test-Case | Upload an image by user-01. (quota: 1)     |")
 	fmt.Println("+-----------+--------------------------------------------+\n")
 
-	url := "http://127.0.0.1/images"
+	url := "http://127.0.0.1:13001/images"
 	method := "POST"
 
 	payload := &bytes.Buffer{}
