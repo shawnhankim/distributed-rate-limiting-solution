@@ -34,12 +34,23 @@ User(SPA)
 
 ### Table of Contents
 - [Getting Started](#getting-started)
+  - [Prerequisites](#Prerequisites)
+  - [Create and run Docker container images](#Create-and-run-Docker-container-images)
+  - [Check docker status](#Check-docker-status) 
+  - [Run and Test Distributed Rate-Limiting Solution](#Run-and-Test-Distributed-Rate-Limiting-Solution)
+  - [Run and Check Quota Remaining in Your Key/Value Store](#Run-and-Check-Quota-Remaining-in-Your-Key/Value-Store)
 - [Directory and File Structure](#directory-and-file-structure)
+- [Misc.](#misc.)
+  - [Distributed System Status Summary](#distributed-system-status-summary)
+  - [HTTP Upstreams Status Summary](#http-upstreams-status-summary)
+  - [Rate Limiter App API](#rate-limiter-app-api)
+  - [Rate Limiter Sync API](#rate-limiter-sync-api)
+  - [Rate Limiter API Test via Postman Collection](#rate-limiter-api-test-via-postman-collection)
 
 
 ## Getting Started
 
-**Prerequisites:**
+### Prerequisites
 - Install Python 3.x for unit and functional test.
 - Install Docker and Docker Compose for integration, end-to-end (E2E) test.
 - Install Golang for integration test.
@@ -52,18 +63,21 @@ User(SPA)
 - [Set up your IdP](https://github.com/shawnhankim/nginx-openid-connect/#configuring-your-idp).
 
 
-**Create and run Docker container images for `frontend-load-balancer-api-gateway-oidc`, `frontend-app`, `backend-load-balancer-to-rate-limiter`, `rate-limiter`, `backend-load-balancer-to-upload-app`, and `upload-app` :**
+### Create and run Docker container images
+Run the following command for running dockers such as `frontend-load-balancer-api-gateway-oidc`, `frontend-app`, `backend-load-balancer-to-rate-limiter`, `rate-limiter`, `backend-load-balancer-to-upload-app`, and `upload-app`:
 ```bash
 $ make start
 ``` 
 
-**Check docker status if 9 containers are successfully run:**
+### Check docker status 
+Run the following comment to check if 9 containers are successfully run:
 ```bash
 $ make watch
 ``` 
 ![](./img/docker_ps_distributed_rate_limiting_system.png)
 
-**Run and Test Distributed Rate-Limiting Solution:**
+
+### Run and Test Distributed Rate-Limiting Solution
 
 > Chrome:
 
@@ -74,7 +88,7 @@ $ make watch
   ![](./img/distributed_rate_limiting_test_tool_safari.png)
 
 
-**Run and Check Quota Remaining in Your Key/Value Store:**
+### Run and Check Quota Remaining in Your Key/Value Store
 You can change `any key/value store` based on your needs. This repo provides a localon DynamoDB as one of key/value stores. You can run the following if you want to check the data by `DynamoDB Admin`.
 
 ```bash
@@ -95,7 +109,6 @@ $ DYNAMO_ENDPOINT=http://localhost:8000 dynamodb-admin
 ```
 
 ![](./img/dynamodb_admin.png)
-
 
 ## Directory and File Structure
 
@@ -150,10 +163,28 @@ $ DYNAMO_ENDPOINT=http://localhost:8000 dynamodb-admin
         └── data                                // Volume to store data rather than memory for testing
 ```
 
-## Distributed System Status Summary
+## Misc.
 
+### Distributed System Status Summary
 ![](./img/nginx_status_summary.png)
 
-## HTTP Upstreams Status Summary
-
+### HTTP Upstreams Status Summary
 ![](./img/nginx_status_upstreams.png)
+
+### Rate Limiter App API
+You can test rate-limiter algorithm via the following API via `http://localhost:12001` on your web browser.
+![](./img/distributed_rate_limiter_app_openapi.png)
+
+### Rate Limiter Sync API
+This API is being designed and implemented. You can test if your configuration is stored in the key/value store (e.g. DynamoDB) although it is in progress. 
+
+![](./img/distributed_rate_limiter_sync_openapi.png)
+
+### Rate Limiter API Test via Postman Collection
+- [Download a file of Postman collection](services/rate-limiter/test/postman/distributed_rate_limiter.postman_collection.json).
+- [Login via the test UI of distributed rate-limiting solution test](#run-and-test-distributed-rate-limiting-solution) first
+![](./img/distributed_rate_limiter_api_postman.png)
+- Copy `session_id=xxxx` from cookie via web browser. It will not be working in production although you copy the session ID, and run APIs via other browsers, tools (e.g. Postman, CURL).
+- Run `Postman` and set up `{{limiter-host}}` with `my-rate-limiter.com` and `{{session_id}}` in your environment.
+- Run each API to configure global/user rate-limiter, and process API request to test rate-limiting.
+![](./img/distributed_rate_limiter_api_postman.png)

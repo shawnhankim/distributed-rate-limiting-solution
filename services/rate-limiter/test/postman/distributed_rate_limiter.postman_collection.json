@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "3c821845-4b16-42a4-ab60-db0cc6a11677",
-		"name": "Rate Limiter",
+		"_postman_id": "1c9ec8bd-9a9a-4f6b-a325-a3e0603c1d31",
+		"name": "Distributed Rate Limiter",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -15,7 +15,19 @@
 							"name": "configure global limit",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "session_id={{your-session-id}}",
+										"type": "default"
+									},
+									{
+										"key": "",
+										"value": "",
+										"type": "default",
+										"disabled": true
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n  \"quota_limit\": 1,\n  \"limit_per\": \"rps\"\n}\n",
@@ -26,13 +38,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://{{limiter-host}}/ratelimit-config/global",
-									"protocol": "http",
+									"raw": "https://{{limiter-host}}/ratelimits/config/global",
+									"protocol": "https",
 									"host": [
 										"{{limiter-host}}"
 									],
 									"path": [
-										"ratelimit-config",
+										"ratelimits",
+										"config",
 										"global"
 									]
 								}
@@ -43,7 +56,13 @@
 							"name": "configure user-1 limit",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "session_id={{your-session-id}}",
+										"type": "default"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n  \"quota_limit\": 1,\n  \"limit_per\": \"rps\"\n}\n",
@@ -54,13 +73,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://{{limiter-host}}/ratelimit-config/users/user-01",
-									"protocol": "http",
+									"raw": "https://{{limiter-host}}/ratelimits/config/users/user-01",
+									"protocol": "https",
 									"host": [
 										"{{limiter-host}}"
 									],
 									"path": [
-										"ratelimit-config",
+										"ratelimits",
+										"config",
 										"users",
 										"user-01"
 									]
@@ -72,7 +92,13 @@
 							"name": "configure user-2 limit",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "session_id={{your-session-id}}",
+										"type": "default"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n  \"quota_limit\": 3,\n  \"limit_per\": \"rps\"\n}\n",
@@ -83,15 +109,52 @@
 									}
 								},
 								"url": {
-									"raw": "http://{{limiter-host}}/ratelimit-config/users/user-02",
-									"protocol": "http",
+									"raw": "https://{{limiter-host}}/ratelimits/config/users/user-02",
+									"protocol": "https",
 									"host": [
 										"{{limiter-host}}"
 									],
 									"path": [
-										"ratelimit-config",
+										"ratelimits",
+										"config",
 										"users",
 										"user-02"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "configure user-2 limit (sub)",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "session_id={{your-session-id}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"quota_limit\": 3,\n  \"limit_per\": \"rps\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{limiter-host}}/ratelimits/config/users/c1d238cd-446f-4e12-b43d-2a8be06a68f9",
+									"protocol": "https",
+									"host": [
+										"{{limiter-host}}"
+									],
+									"path": [
+										"ratelimits",
+										"config",
+										"users",
+										"c1d238cd-446f-4e12-b43d-2a8be06a68f9"
 									]
 								}
 							},
@@ -109,7 +172,13 @@
 							},
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "session_id={{your-session-id}}",
+										"type": "default"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n  \"quota_limit\": 5,\n  \"limit_per\": \"rps\"\n}\n",
@@ -120,13 +189,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://{{limiter-host}}/ratelimit-config/global",
-									"protocol": "http",
+									"raw": "https://{{limiter-host}}/ratelimits/config/global",
+									"protocol": "https",
 									"host": [
 										"{{limiter-host}}"
 									],
 									"path": [
-										"ratelimit-config",
+										"ratelimits",
+										"config",
 										"global"
 									]
 								}
@@ -140,7 +210,13 @@
 							},
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "session_id={{your-session-id}}",
+										"type": "default"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n  \"quota_limit\": 5,\n  \"limit_per\": \"rps\"\n}\n",
@@ -151,13 +227,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://{{limiter-host}}/ratelimit-config/users/user-01",
-									"protocol": "http",
+									"raw": "https://{{limiter-host}}/ratelimits/config/users/user-01",
+									"protocol": "https",
 									"host": [
 										"{{limiter-host}}"
 									],
 									"path": [
-										"ratelimit-config",
+										"ratelimits",
+										"config",
 										"users",
 										"user-01"
 									]
@@ -172,7 +249,13 @@
 							},
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "session_id={{your-session-id}}",
+										"type": "default"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n  \"quota_limit\": 5,\n  \"limit_per\": \"rps\"\n}\n",
@@ -183,15 +266,55 @@
 									}
 								},
 								"url": {
-									"raw": "http://{{limiter-host}}/ratelimit-config/users/user-02",
-									"protocol": "http",
+									"raw": "https://{{limiter-host}}/ratelimits/config/users/user-02",
+									"protocol": "https",
 									"host": [
 										"{{limiter-host}}"
 									],
 									"path": [
-										"ratelimit-config",
+										"ratelimits",
+										"config",
 										"users",
 										"user-02"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user-02 limit config (sub)",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "session_id={{your-session-id}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"quota_limit\": 5,\n  \"limit_per\": \"rps\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{limiter-host}}/ratelimits/config/users/c1d238cd-446f-4e12-b43d-2a8be06a68f9",
+									"protocol": "https",
+									"host": [
+										"{{limiter-host}}"
+									],
+									"path": [
+										"ratelimits",
+										"config",
+										"users",
+										"c1d238cd-446f-4e12-b43d-2a8be06a68f9"
 									]
 								}
 							},
@@ -217,13 +340,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://{{limiter-host}}/ratelimit-config/global",
-									"protocol": "http",
+									"raw": "https://{{limiter-host}}/ratelimits/config/global",
+									"protocol": "https",
 									"host": [
 										"{{limiter-host}}"
 									],
 									"path": [
-										"ratelimit-config",
+										"ratelimits",
+										"config",
 										"global"
 									]
 								}
@@ -245,13 +369,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://{{limiter-host}}/ratelimit-config/users/user-01",
-									"protocol": "http",
+									"raw": "https://{{limiter-host}}/ratelimits/config/users/user-01",
+									"protocol": "https",
 									"host": [
 										"{{limiter-host}}"
 									],
 									"path": [
-										"ratelimit-config",
+										"ratelimits",
+										"config",
 										"users",
 										"user-01"
 									]
@@ -274,15 +399,46 @@
 									}
 								},
 								"url": {
-									"raw": "http://{{limiter-host}}/ratelimit-config/users/user-02",
-									"protocol": "http",
+									"raw": "https://{{limiter-host}}/ratelimits/config/users/user-02",
+									"protocol": "https",
 									"host": [
 										"{{limiter-host}}"
 									],
 									"path": [
-										"ratelimit-config",
+										"ratelimits",
+										"config",
 										"users",
 										"user-02"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete user-01 limit (sub)",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{limiter-host}}/ratelimits/config/users/c1d238cd-446f-4e12-b43d-2a8be06a68f9",
+									"protocol": "https",
+									"host": [
+										"{{limiter-host}}"
+									],
+									"path": [
+										"ratelimits",
+										"config",
+										"users",
+										"c1d238cd-446f-4e12-b43d-2a8be06a68f9"
 									]
 								}
 							},
@@ -301,13 +457,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{limiter-host}}/ratelimit-decrement/global",
-							"protocol": "http",
+							"raw": "https://{{limiter-host}}/ratelimits/decrement/global",
+							"protocol": "https",
 							"host": [
 								"{{limiter-host}}"
 							],
 							"path": [
-								"ratelimit-decrement",
+								"ratelimits",
+								"decrement",
 								"global"
 							]
 						}
@@ -320,13 +477,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{limiter-host}}/ratelimit-decrement/users/user-01",
-							"protocol": "http",
+							"raw": "https://{{limiter-host}}/ratelimits/decrement/users/user-01",
+							"protocol": "https",
 							"host": [
 								"{{limiter-host}}"
 							],
 							"path": [
-								"ratelimit-decrement",
+								"ratelimits",
+								"decrement",
 								"users",
 								"user-01"
 							]
@@ -340,13 +498,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{limiter-host}}/ratelimit-decrement/users/user-02",
-							"protocol": "http",
+							"raw": "https://{{limiter-host}}/ratelimits/decrement/users/user-02",
+							"protocol": "https",
 							"host": [
 								"{{limiter-host}}"
 							],
 							"path": [
-								"ratelimit-decrement",
+								"ratelimits",
+								"decrement",
 								"users",
 								"user-02"
 							]
@@ -365,13 +524,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{limiter-host}}/ratelimit-status",
-							"protocol": "http",
+							"raw": "https://{{limiter-host}}/ratelimits/status",
+							"protocol": "https",
 							"host": [
 								"{{limiter-host}}"
 							],
 							"path": [
-								"ratelimit-status"
+								"ratelimits",
+								"status"
 							]
 						}
 					},
@@ -383,13 +543,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{limiter-host}}/ratelimit-status/global",
-							"protocol": "http",
+							"raw": "https://{{limiter-host}}/ratelimits/status/global",
+							"protocol": "https",
 							"host": [
 								"{{limiter-host}}"
 							],
 							"path": [
-								"ratelimit-status",
+								"ratelimits",
+								"status",
 								"global"
 							]
 						}
@@ -402,13 +563,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{limiter-host}}/ratelimit-status/users/user-01",
-							"protocol": "http",
+							"raw": "https://{{limiter-host}}/ratelimits/status/users/user-01",
+							"protocol": "https",
 							"host": [
 								"{{limiter-host}}"
 							],
 							"path": [
-								"ratelimit-status",
+								"ratelimits",
+								"status",
 								"users",
 								"user-01"
 							]
@@ -422,13 +584,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{limiter-host}}/ratelimit-status/users/user-01",
-							"protocol": "http",
+							"raw": "https://{{limiter-host}}/ratelimits/status/users/user-01",
+							"protocol": "https",
 							"host": [
 								"{{limiter-host}}"
 							],
 							"path": [
-								"ratelimit-status",
+								"ratelimits",
+								"status",
 								"users",
 								"user-01"
 							]
@@ -448,7 +611,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "user_id=user-01",
+								"value": "session_id={{your-session-id}}",
 								"type": "default"
 							}
 						],
@@ -457,8 +620,8 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "http://{{limiter-host}}/images",
-							"protocol": "http",
+							"raw": "https://{{limiter-host}}/images",
+							"protocol": "https",
 							"host": [
 								"{{limiter-host}}"
 							],
@@ -476,7 +639,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "user_id=user-02",
+								"value": "session_id={{your-session-id}}",
 								"type": "default"
 							}
 						],
@@ -485,8 +648,8 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "http://{{limiter-host}}/images",
-							"protocol": "http",
+							"raw": "https://{{limiter-host}}/images",
+							"protocol": "https",
 							"host": [
 								"{{limiter-host}}"
 							],
@@ -504,7 +667,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "user_id=unknown",
+								"value": "session_id={{your-session-id}}",
 								"type": "default"
 							}
 						],
@@ -513,8 +676,8 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "http://{{limiter-host}}/images",
-							"protocol": "http",
+							"raw": "https://{{limiter-host}}/images",
+							"protocol": "https",
 							"host": [
 								"{{limiter-host}}"
 							],
@@ -552,13 +715,13 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "http://{{limiter-host}}/status",
-							"protocol": "http",
+							"raw": "https://{{limiter-host}}/dummy",
+							"protocol": "https",
 							"host": [
 								"{{limiter-host}}"
 							],
 							"path": [
-								"status"
+								"dummy"
 							],
 							"query": [
 								{
