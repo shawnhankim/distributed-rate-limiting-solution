@@ -1,0 +1,481 @@
+{
+    "swagger": "2.0",
+    "basePath": "/",
+    "paths": {
+        "/ratelimits/config/global": {
+            "put": {
+                "responses": {
+                    "409": {
+                        "description": "The global rate-limit is already configured."
+                    },
+                    "404": {
+                        "description": "Unable to find a global rate-limit configuration."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/ratelimit-res"
+                        }
+                    }
+                },
+                "summary": "Configure a global rate-limiter",
+                "operationId": "put_global_rate_limit_config_api",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/ratelimit-req"
+                        }
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "tags": [
+                    "ratelimits"
+                ]
+            },
+            "delete": {
+                "responses": {
+                    "409": {
+                        "description": "The global rate-limit is already configured."
+                    },
+                    "404": {
+                        "description": "Unable to find a global rate-limit configuration."
+                    },
+                    "204": {
+                        "description": "deleted"
+                    }
+                },
+                "summary": "Delete a global rate-limiter",
+                "operationId": "delete_global_rate_limit_config_api",
+                "tags": [
+                    "ratelimits"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "409": {
+                        "description": "The global rate-limit is already configured."
+                    },
+                    "404": {
+                        "description": "Unable to find a global rate-limit configuration."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/ratelimit-res"
+                        }
+                    }
+                },
+                "summary": "Get a global rate-limiter configuration information",
+                "operationId": "get_global_rate_limit_config_api",
+                "parameters": [
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "tags": [
+                    "ratelimits"
+                ]
+            }
+        },
+        "/ratelimits/config/users/{id}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "description": "Please enter a user ID",
+                    "name": "id",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "put": {
+                "responses": {
+                    "409": {
+                        "description": "The user rate-limit is already configured."
+                    },
+                    "404": {
+                        "description": "Unable to find a user rate-limit configuration."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/ratelimit-res"
+                        }
+                    }
+                },
+                "summary": "Configure a user's rate-limiter",
+                "operationId": "put_user_rate_limit_config_api",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/ratelimit-req"
+                        }
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "tags": [
+                    "ratelimits"
+                ]
+            },
+            "delete": {
+                "responses": {
+                    "409": {
+                        "description": "The user rate-limit is already configured."
+                    },
+                    "404": {
+                        "description": "Unable to find a user rate-limit configuration."
+                    },
+                    "204": {
+                        "description": "deleted"
+                    }
+                },
+                "summary": "Delete a user's rate-limiter",
+                "operationId": "delete_user_rate_limit_config_api",
+                "tags": [
+                    "ratelimits"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "409": {
+                        "description": "The user rate-limit is already configured."
+                    },
+                    "404": {
+                        "description": "Unable to find a user rate-limit configuration."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/ratelimit-res"
+                        }
+                    }
+                },
+                "summary": "Get a user's rate-limiter configuration information",
+                "operationId": "get_user_rate_limit_config_api",
+                "parameters": [
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "tags": [
+                    "ratelimits"
+                ]
+            }
+        },
+        "/ratelimits/decrement/global": {
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "429": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/decrement-res"
+                        }
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/decrement-res"
+                        }
+                    }
+                },
+                "summary": "Reduce the number of quota remainings globally",
+                "operationId": "get_global_rate_limit_decrement_api",
+                "parameters": [
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "tags": [
+                    "ratelimits"
+                ]
+            }
+        },
+        "/ratelimits/decrement/users/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "429": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/decrement-res"
+                        }
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/decrement-res"
+                        }
+                    }
+                },
+                "summary": "Reduce the number of quota remainings per user ID",
+                "operationId": "get_user_rate_limit_decrement_api",
+                "parameters": [
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "tags": [
+                    "ratelimits"
+                ]
+            }
+        },
+        "/ratelimits/status": {
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "Status not found"
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/decrement-res"
+                        }
+                    }
+                },
+                "summary": "Get list of remainig status of global/user rate-limiter",
+                "operationId": "get_rate_limit_status_api",
+                "parameters": [
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "tags": [
+                    "ratelimits/status"
+                ]
+            }
+        },
+        "/ratelimits/status/global": {
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "Status not found"
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/decrement-res"
+                        }
+                    }
+                },
+                "summary": "Get a remainig status of global rate-limiter",
+                "operationId": "get_global_rate_limit_status_api",
+                "parameters": [
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "tags": [
+                    "ratelimits/status"
+                ]
+            }
+        },
+        "/ratelimits/status/users/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "Status not found"
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/decrement-res"
+                        }
+                    }
+                },
+                "summary": "Get a remainig status of a user's rate-limiter",
+                "operationId": "get_user_rate_limit_status_api",
+                "parameters": [
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "tags": [
+                    "ratelimits/status"
+                ]
+            }
+        }
+    },
+    "info": {
+        "title": "Rate Limiter Sync API",
+        "version": "1.0",
+        "description": "APIs for synchronizing quota-limit between rate-limiter and key/value datastore"
+    },
+    "produces": [
+        "application/json"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "tags": [
+        {
+            "name": "ratelimits",
+            "description": "Rate Limit Config for Data Plane"
+        },
+        {
+            "name": "ratelimits",
+            "description": "Rate Limit Request Per Global or User"
+        },
+        {
+            "name": "ratelimits/status",
+            "description": "Rate Limiter Status for All Buckets"
+        }
+    ],
+    "definitions": {
+        "ratelimit-req": {
+            "required": [
+                "limit_per",
+                "quota_limit"
+            ],
+            "properties": {
+                "quota_limit": {
+                    "type": "integer",
+                    "description": "the number of times you can request per second (rps)",
+                    "default": 5
+                },
+                "limit_per": {
+                    "type": "string",
+                    "description": "requests per period of time such as second",
+                    "default": "rps"
+                }
+            },
+            "type": "object"
+        },
+        "ratelimit-res": {
+            "required": [
+                "bucket_name",
+                "limit_per",
+                "quota_limit"
+            ],
+            "properties": {
+                "quota_limit": {
+                    "type": "integer",
+                    "description": "the number of times you can request per second (rps)",
+                    "default": 5
+                },
+                "limit_per": {
+                    "type": "string",
+                    "description": "requests per period of time such as second",
+                    "default": "rps"
+                },
+                "bucket_name": {
+                    "type": "string",
+                    "description": "rate-limiter bucket key: e.g. user-id",
+                    "default": "global"
+                },
+                "quota_remaining": {
+                    "type": "integer",
+                    "description": "remaining quota-units",
+                    "default": 5
+                }
+            },
+            "type": "object"
+        },
+        "decrement-res": {
+            "required": [
+                "bucket_name"
+            ],
+            "properties": {
+                "bucket_name": {
+                    "type": "string",
+                    "description": "rate-limiter bucket key: e.g. user-id",
+                    "default": "global"
+                },
+                "quota_limit": {
+                    "type": "integer",
+                    "description": "the number of times you can request per second (rps)",
+                    "default": 5
+                },
+                "quota_remaining": {
+                    "type": "integer",
+                    "description": "quota remainining",
+                    "default": 5
+                },
+                "limit_per": {
+                    "type": "string",
+                    "description": "requests per period of time such as second",
+                    "default": "rps"
+                },
+                "last_update": {
+                    "type": "number",
+                    "description": "last update time",
+                    "default": 1642057216.778389
+                }
+            },
+            "type": "object"
+        }
+    },
+    "responses": {
+        "ParseError": {
+            "description": "When a mask can't be parsed"
+        },
+        "MaskError": {
+            "description": "When any error occurs on mask"
+        }
+    }
+}
