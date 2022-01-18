@@ -1,7 +1,7 @@
 # Distributed Rating Limiting Solution w/ Echo System
 The rate-limit allows you to limit the amount of HTTP requests a user can make in a given period of time.
 
-This repo provides **an example of distributed rate-limiter solution** that integrates with load balancers, API gateways, frontend apps, IdP, Rate-Limiters, and fake upload apps. 
+This repo provides **an example of distributed rate-limiter solution** that integrates with load balancers, API gateways, frontend apps, IdP, Rate-Limiters, fake upload apps, sync-apps, and key/value store. 
 
 > **As-Is**: Load Balancers, API Gateways, Frontend Apps, IdP, Rate-Limiters, and Fake Upload App APIs
 
@@ -15,10 +15,10 @@ User(SPA)
   |            |                [RL in API-GW or different machine]             Pub
   |   [IdP]--+ |   .................................................    +----> [Sync-App 1..j]
   |          | |   :                                  Sub          :    |       1) Event
-  |          | |   :            +- RL 1 --- Cache <-- Sync-App <-+ :    V       2) Regulary
+  |          | |   :            +- RL 1 --- Cache <-> Sync-App <-+ :    V       2) Regulary
 [LB ] --+- [API-GW 1] -+        |     :                          +-+-> [LB] -+ 
- N+     |    N+    :   +- [LB] -+- RL n --- Cache <-- Sync-App <-+ :         +- Cache 1
-        |          :   |   NGX                                     :         |        :
+ N+     |    N+    :   +- [LB] -+- RL n --- Cache <-> Sync-App <-+ :         +- Cache 1
+        |          :   |   NGX                    msg              :         |        :
         |          :...+...........................................:         +- Cache k
         |              |                                                     |
         |              +- [LB] -+- UA 1 (Fake Upload App)                    +- Datastore 1
@@ -56,7 +56,7 @@ User(SPA)
 - Install Golang for integration test.
 - Add `127.0.0.1 host.docker.internal` into `/etc/hosts` file.
 - Add `127.0.0.1 my-rate-limiter.com` into `/etc/hosts` file.
-- ]Create your certificates and copy them](https://github.com/shawnhankim/nginx-openid-connect/tree/main/docker#prepare-certs-and-nginx-plus-license) into `services/frontend-load-balancer-api-gateway-oidc/ssl` directory.
+- [Create your certificates and copy them](https://github.com/shawnhankim/nginx-openid-connect/tree/main/docker#prepare-certs-and-nginx-plus-license) into `services/frontend-load-balancer-api-gateway-oidc/ssl` directory.
 - Download the NGINX Plus license files via the [F5/NGINX customer portal](https://cs.nginx.com/?_ga=2.268586425.912746048.1620625839-85838359.1596947109), and copy the files into the following path.
   - Path: `services/frontend-load-balancer-api-gateway-oidc/ssl`
   - Files: `nginx-repo.crt`, `nginx-repo.key`
@@ -64,7 +64,7 @@ User(SPA)
 
 
 ### Create and run Docker container images
-Run the following command for running dockers such as `frontend-load-balancer-api-gateway-oidc`, `frontend-app`, `backend-load-balancer-to-rate-limiter`, `rate-limiter`, `backend-load-balancer-to-upload-app`, and `upload-app`:
+Run the following command for running dockers such as `frontend-load-balancer-api-gateway-oidc`, `frontend-app`, `backend-load-balancer-to-rate-limiter`, `rate-limiter`, `backend-load-balancer-to-upload-app`, `upload-app`, `sync-app`, and `key-value-store`:
 ```bash
 $ make start
 ``` 
